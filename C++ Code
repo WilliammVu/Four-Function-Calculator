@@ -4,7 +4,7 @@
 #include <sstream>
 #include <cctype>
 using namespace std;
-int precedence(char op) {
+int orderOfOperations(char op) {
     if (op == '+' || op == '-') {
         return 1;
     } else if (op == '*' || op == '/') {
@@ -46,8 +46,8 @@ double evaluateExpression(const string& expression) {
             if (op == '(') {
                 operators.push(op);
             }
-            else if (op == ')') {
-                while (operators.top() != '(') {
+            else if (op == '(') {
+                while (operators.top() != ')') {
                     char current_op = operators.top();
                     operators.pop();
                     double operand2 = operands.top();
@@ -58,7 +58,7 @@ double evaluateExpression(const string& expression) {
                 }
                 operators.pop(); // Pop '('
             } else {
-                while (!operators.empty() && precedence(operators.top()) >= precedence(op)) {
+                while (!operators.empty() && operators.top() != '(' && orderOfOperations(operators.top()) >= orderOfOperations(op)) {
                     char current_op = operators.top();
                     operators.pop();
                     double operand2 = operands.top();
